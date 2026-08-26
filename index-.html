@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omar Abdeljalil — Industrial Engineering Portfolio</title>
+<meta name="description" content="Portfolio of Omar Abdeljalil — third-year Industrial Engineering student at Al-Hussein Technical University (HTU), Jordan. Projects in simulation, optimization, lean manufacturing, and production planning.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- design tokens ---------- */
+  :root {
+    --paper:       #F0EBE0;
+    --paper-dim:   #E7E1D4;
+    --ink:         #0F1620;
+    --ink-soft:    #23303F;
+    --steel:       #5A6472;
+    --rule:        #C4BFB0;
+    --signal:      #B0451A;
+    --signal-soft: rgba(176, 69, 26, 0.08);
+
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-body:    'Inter', system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+    --content-max: 1160px;
+    --prose-max:   62ch;
+  }
+
+  /* ---------- reset & base ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: var(--ink); color: var(--paper); }
+
+  /* ---------- layout ---------- */
+  .wrap {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
+  }
+
+  section {
+    padding: clamp(4rem, 9vw, 7rem) 0;
+    border-top: 1px solid var(--rule);
+  }
+  section:first-of-type { border-top: none; }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(240, 235, 224, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem clamp(1.5rem, 4vw, 3rem);
+    max-width: var(--content-max);
+    margin: 0 auto;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+  .nav-brand {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .nav-brand::before {
+    content: "●";
+    color: var(--signal);
+    margin-right: 0.5em;
+  }
+  .nav-links {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+  @media (max-width: 540px) {
+    .nav-brand span { display: none; }
+    .nav-links { gap: 1.25rem; font-size: 0.75rem; }
+  }
+  .nav-links a {
+    color: var(--steel);
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding-top: clamp(4rem, 10vw, 8rem);
+    padding-bottom: clamp(4rem, 10vw, 8rem);
+  }
+  .hero-label {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--steel);
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-label::after {
+    content: "";
+    flex: 1;
+    max-width: 200px;
+    height: 1px;
+    background: var(--rule);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.75rem, 8vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 .thin {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .hero-tag {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    max-width: 40ch;
+    color: var(--ink-soft);
+    margin-bottom: 3rem;
+    line-height: 1.45;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1.5rem;
+    max-width: 720px;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .stat-num {
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: var(--signal);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .stat-lbl {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--steel);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- section header (§ 0N / TITLE) ---------- */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--signal);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    margin-bottom: 0.35em;
+  }
+
+  /* ---------- about ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 800px) {
+    .about-grid {
+      grid-template-columns: 2fr 1fr;
+      gap: 5rem;
+    }
+  }
+  .about-prose {
+    max-width: var(--prose-max);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  .about-prose p + p { margin-top: 1.25em; }
+
+  .about-side {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+  .about-side dt {
+    color: var(--steel);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    margin-top: 1.5rem;
+  }
+  .about-side dt:first-child { margin-top: 0; }
+  .about-side dd { color: var(--ink); }
+
+  /* ---------- projects grid ---------- */
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 780px) {
+    .projects { grid-template-columns: repeat(2, 1fr); gap: 1.75rem; }
+  }
+
+  .card {
+    background: var(--paper-dim);
+    border: 1px solid var(--rule);
+    padding: 2rem 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .card:hover .card-title { color: var(--signal); }
+
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .card-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--steel);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .card-num {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--steel);
+    letter-spacing: 0.05em;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    transition: color 0.15s ease;
+  }
+  .card-desc {
+    color: var(--ink-soft);
+    line-height: 1.55;
+    font-size: 0.9375rem;
+    flex-grow: 1;
+  }
+
+  .card-metric {
+    padding: 1rem 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .metric-value {
+    font-family: var(--font-mono);
+    font-size: 1.625rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .metric-value .unit {
+    font-size: 0.875rem;
+    color: var(--steel);
+    margin-left: 0.25em;
+  }
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--steel);
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--steel);
+    border: 1px solid var(--rule);
+    padding: 0.25rem 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .card-links {
+    display: flex;
+    gap: 1.5rem;
+    padding-top: 0.5rem;
+  }
+  .card-link {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--ink);
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--ink);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .card-link:hover {
+    color: var(--signal);
+    border-color: var(--signal);
+  }
+  .card-link.secondary {
+    color: var(--steel);
+    border-color: var(--rule);
+  }
+
+  /* ---------- skills ---------- */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 700px) {
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1000px) {
+    .skills-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .skill-group h3 {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--signal);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 1rem;
+  }
+  .skill-group ul {
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--ink);
+    line-height: 2;
+  }
+  .skill-group li::before {
+    content: "—";
+    color: var(--steel);
+    margin-right: 0.5rem;
+  }
+
+  /* ---------- contact ---------- */
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: end;
+  }
+  @media (min-width: 780px) {
+    .contact-inner { grid-template-columns: 3fr 2fr; gap: 5rem; }
+  }
+  .contact h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    max-width: 12ch;
+  }
+  .contact-list {
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    line-height: 2;
+  }
+  .contact-list a {
+    color: var(--ink);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .contact-list a:hover {
+    color: var(--signal);
+    border-color: var(--signal);
+  }
+  .contact-list .lbl {
+    color: var(--steel);
+    display: inline-block;
+    width: 90px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--steel);
+    letter-spacing: 0.03em;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .card { transition: none; }
+    .card:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand"><span>OMAR&nbsp;ABDELJALIL</span></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-label">PORTFOLIO / 2024–2026</div>
+      <h1>Omar Abdeljalil<br><span class="thin">Industrial Engineer.</span></h1>
+      <p class="hero-tag">Third-year Industrial Engineering student at HTU building measurable improvements in production, logistics, and operational systems — with the simulation, optimization, and lean tools to prove them.</p>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">7</div>
+          <div class="stat-lbl">Projects</div>
+        </div>
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-lbl">Domains</div>
+        </div>
+        <div>
+          <div class="stat-num">12+</div>
+          <div class="stat-lbl">Tools &amp; Methods</div>
+        </div>
+        <div>
+          <div class="stat-num">1</div>
+          <div class="stat-lbl">Research Paper</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="wrap">
+      <header class="section-header">
+        <div class="section-num">§ 01</div>
+        <h2 class="section-title">About</h2>
+        <div class="section-rule"></div>
+      </header>
+
+      <div class="about-grid">
+        <div class="about-prose">
+          <p>I'm an Industrial Engineering student in my third year at Al-Hussein Technical University (HTU) in Jordan, focused on the intersection of production systems, optimization, and data analysis.</p>
+          <p>My coursework and research have taken me across the discipline — from discrete-event simulation of automotive assembly lines to integer linear programming for last-mile drone logistics, from full value-stream mapping of a food manufacturing line to financial-ratio analysis of a listed company. What ties it together: every project ends with numbers that actually mean something for a real decision.</p>
+          <p>I'm looking for internships and opportunities where I can apply these methods to operational problems that matter — with organizations that value quantitative rigor and a genuine engineering mindset.</p>
+        </div>
+        <aside class="about-side">
+          <dl>
+            <dt>Location</dt>
+            <dd>Amman, Jordan</dd>
+
+            <dt>University</dt>
+            <dd>Al-Hussein Technical<br>University (HTU)</dd>
+
+            <dt>Program</dt>
+            <dd>Industrial Engineering<br>B.Sc. — Year 3</dd>
+
+            <dt>Focus areas</dt>
+            <dd>Simulation ·<br>Optimization ·<br>Lean manufacturing ·<br>Data analytics</dd>
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects">
+    <div class="wrap">
+      <header class="section-header">
+        <div class="section-num">§ 02</div>
+        <h2 class="section-title">Selected projects</h2>
+        <div class="section-rule"></div>
+      </header>
+
+      <div class="projects">
+
+        <!-- 1 -->
+        <article class="card">
+          <div class="card-head">
+            <div class="card-eyebrow">SIMULATION · RESEARCH</div>
+            <div class="card-num">P.01</div>
+          </div>
+          <h3 class="card-title">Push vs. JIT vs. JIS — a DES comparison of automotive production systems</h3>
+          <p class="card-desc">Built three AnyLogic discrete-event simulation models under identical conditions, calibrated from 11 peer-reviewed sources. Ran 31 replications comparing throughput, WIP, lead time, utilization, and sequence accuracy — the first unified DES trade-off study of all three systems.</p>
+          <div class="card-metric">
+            <div class="metric-value">−73.9<span class="unit">%</span></div>
+            <div class="metric-label">WIP inventory reduction,<br>JIT vs Push (37.1 → 9.7 cars/shift)</div>
+          </div>
+          <div class="tags">
+            <span class="tag">AnyLogic</span>
+            <span class="tag">DES</span>
+            <span class="tag">Statistical Analysis</span>
+            <span class="tag">Research</span>
+          </div>
+          <div class="card-links">
+            <a href="projects/01-des-production-systems/report.pdf" class="card-link">Read paper →</a>
+            <a href="projects/01-des-production-systems/" class="card-link secondary">View folder →</a>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="card">
+          <div class="card-head">
+            <div class="card-eyebrow">OPTIMIZATION · LOGISTICS</div>
+            <div class="card-num">P.02</div>
+          </div>
+          <h3 class="card-title">Aramex drone delivery — integer linear programming</h3>
+          <p class="card-desc">Formulated a mixed-integer optimization model to minimize the total transportation cost of drone-based bank-document delivery across Aramex depots. Solved in Python (PuLP) with an Excel Solver validation, respecting drone capacity, range, and demand constraints.</p>
+          <div class="card-metric">
+            <div class="metric-value">104.05 <span class="unit">JOD</span></div>
+            <div class="metric-label">Optimal total cost,<br>10 pickup–delivery requests · 62 orders</div>
+          </div>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">PuLP</span>
+            <span class="tag">ILP</span>
+            <span class="tag">Excel Solver</span>
+            <span class="tag">Pandas</span>
+          </div>
+          <div class="card-links">
+            <a href="projects/02-aramex-drone-optimization/report.pdf" class="card-link">Read report →</a>
+            <a href="projects/02-aramex-drone-optimization/" class="card-link secondary">View folder →</a>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="card">
+          <div class="card-head">
+            <div class="card-eyebrow">MANUFACTURING SYSTEMS</div>
+            <div class="card-num">P.03</div>
+          </div>
+          <h3 class="card-title">Nabil Foods — production system analysis of the Chicken Burger line</h3>
+          <p class="card-desc">End-to-end MSE study of a 350 tons/month batch-food line: VSM, TOC, forecasting, MRP in Odoo, capacity planning, scheduling, and resource allocation. Identified the freezer as the system constraint and proposed a constraint-aware planning framework.</p>
+          <div class="card-metric">
+            <div class="metric-value">15–25<span class="unit">%</span></div>
+            <div class="metric-label">Projected lead-time reduction,<br>no capital investment required</div>
+          </div>
+          <div class="tags">
+            <span class="tag">VSM</span>
+            <span class="tag">TOC</span>
+            <span class="tag">MRP</span>
+            <span class="tag">Odoo</span>
+            <span class="tag">Forecasting</span>
+            <span class="tag">MS Project</span>
+          </div>
+          <div class="card-links">
+            <a href="projects/03-nabil-mse/report.pdf" class="card-link">Read report →</a>
+            <a href="projects/03-nabil-mse/" class="card-link secondary">View folder →</a>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="card">
+          <div class="card-head">
+            <div class="card-eyebrow">LEAN MANUFACTURING</div>
+            <div class="card-num">P.04</div>
+          </div>
+          <h3 class="card-title">Jada Company — lean transformation of a bespoke door line</h3>
+          <p class="card-desc">Mapped an 8-process door production line at Jada Company. Built a 38-step process chart, current-state VSM, and OEE analysis, then designed a future-state VSM addressing overprocessing, waiting, and transportation waste via SOPs, visual management, and a U-cell layout.</p>
+          <div class="card-metric">
+            <div class="metric-value">29<span class="unit">%</span></div>
+            <div class="metric-label">Baseline OEE —<br>lead time 613 → 561 min projected</div>
+          </div>
+          <div class="tags">
+            <span class="tag">VSM</span>
+            <span class="tag">OEE</span>
+            <span class="tag">DMAIC</span>
+            <span class="tag">5-Whys</span>
+            <span class="tag">Visual Management</span>
+          </div>
+          <div class="card-links">
+            <a href="projects/04-jada-lean/report.docx" class="card-link">Read report →</a>
+            <a href="projects/04-jada-lean/" class="card-link secondary">View folder →</a>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="card">
+          <div class="card-head">
+            <div class="card-eyebrow">ENGINEERING MANAGEMENT</div>
+            <div class="card-num">P.05</div>
+          </div>
+          <h3 class="card-title">Predictive fever-monitoring bracelet — engineering management</h3>
+          <p class="card-desc">Cross-functional product-engineering project for a predictive-temperature wearable for children. Led the inventory department: reliability &amp; FMEA, business model canvas, risk register, supply-chain design, cost structure, and Industry 4.0 integration strategy.</p>
+          <div class="card-metric">
+            <div class="metric-value">4-role <span class="unit">team</span></div>
+            <div class="metric-label">Full lifecycle — FMEA · BMC · Risk ·<br>Legal · Ethics · Industry 4.0</div>
+          </div>
+          <div class="tags">
+            <span class="tag">FMEA</span>
+            <span class="tag">BMC</span>
+            <span class="tag">Risk Register</span>
+            <span class="tag">Fishbone</span>
+            <span class="tag">TQM</span>
+          </div>
+          <div class="card-links">
+            <a href="projects/05-fever-bracelet-pem/report.pdf" class="card-link">Read report →</a>
+            <a href="projects/05-fever-bracelet-pem/" class="card-link secondary">View folder →</a>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="card">
+          <div class="card-head">
+            <div class="card-eyebrow">DATA ANALYTICS · BI</div>
+            <div class="card-num">P.06</div>
+          </div>
+          <h3 class="card-title">Customer sales &amp; marketing analytics — SQL, Python, Power BI</h3>
+          <p class="card-desc">Designed a 4-table relational database in MS SQL Server, cleaned messy customer data in SQL and Python, ran multivariate regression on age &amp; income vs. total sales, and built a Power BI dashboard covering revenue trends, campaign impact, and demographic segmentation.</p>
+          <div class="card-metric">
+            <div class="metric-value">R² = 0.32</div>
+            <div class="metric-label">Multivariate regression —<br>age &amp; income → total sales</div>
+          </div>
+          <div class="tags">
+            <span class="tag">SQL Server</span>
+            <span class="tag">Python</span>
+            <span class="tag">scikit-learn</span>
+            <span class="tag">Power BI</span>
+            <span class="tag">Pandas</span>
+          </div>
+          <div class="card-links">
+            <a href="projects/06-data-analytics/report.docx" class="card-link">Read report →</a>
+            <a href="projects/06-data-analytics/" class="card-link secondary">View folder →</a>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article class="card">
+          <div class="card-head">
+            <div class="card-eyebrow">FINANCIAL ANALYSIS</div>
+            <div class="card-num">P.07</div>
+          </div>
+          <h3 class="card-title">Jordan Poultry Processing &amp; Marketing — 5-year financial analysis</h3>
+          <p class="card-desc">Full financial analysis of a listed Jordanian company across 2017–2021: horizontal &amp; vertical analysis of the balance sheet, income statement, and cash-flow statement, plus a full ratio study covering liquidity, leverage, efficiency, profitability, and market ratios.</p>
+          <div class="card-metric">
+            <div class="metric-value">5-year <span class="unit">study</span></div>
+            <div class="metric-label">15+ financial ratios computed,<br>with investment recommendations</div>
+          </div>
+          <div class="tags">
+            <span class="tag">Financial Ratios</span>
+            <span class="tag">Excel</span>
+            <span class="tag">DuPont</span>
+            <span class="tag">Cash-Flow Analysis</span>
+          </div>
+          <div class="card-links">
+            <a href="projects/07-financial-analysis/report.docx" class="card-link">Read report →</a>
+            <a href="projects/07-financial-analysis/" class="card-link secondary">View folder →</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <div class="wrap">
+      <header class="section-header">
+        <div class="section-num">§ 03</div>
+        <h2 class="section-title">Tools &amp; methods</h2>
+        <div class="section-rule"></div>
+      </header>
+
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h3>Simulation &amp; optimization</h3>
+          <ul>
+            <li>AnyLogic (DES)</li>
+            <li>Python — PuLP</li>
+            <li>Excel Solver</li>
+            <li>Integer &amp; Linear Programming</li>
+            <li>Monte-Carlo / replications</li>
+          </ul>
+        </div>
+
+        <div class="skill-group">
+          <h3>Lean &amp; production</h3>
+          <ul>
+            <li>Value Stream Mapping</li>
+            <li>OEE calculation</li>
+            <li>TOC / bottleneck analysis</li>
+            <li>DMAIC · 5-Whys · PDCA</li>
+            <li>MRP · S&amp;OP · scheduling</li>
+            <li>Kanban / pull systems</li>
+          </ul>
+        </div>
+
+        <div class="skill-group">
+          <h3>Data &amp; analytics</h3>
+          <ul>
+            <li>SQL (MS SQL Server)</li>
+            <li>Python — pandas, sklearn</li>
+            <li>Power BI</li>
+            <li>Regression analysis</li>
+            <li>Descriptive statistics</li>
+          </ul>
+        </div>
+
+        <div class="skill-group">
+          <h3>Engineering software</h3>
+          <ul>
+            <li>Odoo ERP (MRP module)</li>
+            <li>Microsoft Project</li>
+            <li>Excel (advanced)</li>
+            <li>FMEA · Risk Register</li>
+            <li>Business Model Canvas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <header class="section-header">
+        <div class="section-num">§ 04</div>
+        <h2 class="section-title">Contact</h2>
+        <div class="section-rule"></div>
+      </header>
+
+      <div class="contact-inner">
+        <div>
+          <h2>Let's talk about your next project.</h2>
+        </div>
+        <div class="contact-list">
+          <p><span class="lbl">Email</span> <a href="mailto:omarabdeljalil2000@gmail">omarabdeljalil2000@gmail.com</a></p>
+          <p><span class="lbl">LinkedIn</span> <a href="https://www.linkedin.com/in/omar-abdeljalil-a9bb9022a/" target="_blank" rel="noopener">/in/Omar Abdeljalil</a></p>
+          <p><span class="lbl">GitHub</span> <a href="https://github.com/Omar-Abdeljalil" target="_blank" rel="noopener">@Omar-Abdeljalil</a></p>
+          <p><span class="lbl">Location</span> Amman, Jordan</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>© 2026 OMAR ABDELJALIL · HTU · INDUSTRIAL ENGINEERING</div>
+      <div>BUILT WITH HTML &amp; CSS · HOSTED ON GITHUB PAGES</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

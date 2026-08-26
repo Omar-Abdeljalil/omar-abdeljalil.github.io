@@ -1,0 +1,24 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary / cache
+*.tmp
+*.log
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Office lock files
+~$*.docx
+~$*.xlsx
+~$*.pptx
